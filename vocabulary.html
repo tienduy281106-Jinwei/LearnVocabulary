@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabMaster - Kho Từ Vựng</title>
+  <meta name="description" content="Quản lý kho từ vựng tiếng Anh cá nhân: thêm, sửa, xóa và lọc từ theo chủ đề.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <span class="stat-header-value" id="header-total-vocab">0</span>
+              <span class="stat-header-label">Đã lưu</span>
+            </div>
+          </div>
+          <div class="stat-header-item">
+            <i class="fa-solid fa-circle-check" style="color: var(--color-success);"></i>
+            <div>
+              <span class="stat-header-value" id="header-mastered-vocab">0</span>
+              <span class="stat-header-label">Đã thuộc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- SECTION: VOCABULARY (Kho từ vựng)                    -->
+      <!-- ---------------------------------------------------- -->
+      <section class="page-section active" id="sec-vocabulary">
+
+        <!-- TOPIC SELECTION BANNER / PILLS BAR -->
+        <div class="topic-selection-card" id="topic-selection-card">
+          <div class="topic-bar-header">
+            <div class="topic-bar-title">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Chọn Chủ Đề Học (Topic):</span>
+            </div>
+            <div class="topic-bar-stats" id="topic-bar-stats" style="font-size: 13px; color: var(--text-muted);">
+              <!-- JS renders stats -->
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btn-quick-topic-test"
+              style="border-radius: 20px; padding: 5px 14px; font-size: 12px; background: rgba(99,102,241,0.2); color: var(--color-primary-light); border: 1px solid var(--color-primary); cursor: pointer;">
+              <i class="fa-solid fa-bolt"></i> Kiểm tra Topic này ngay
+            </button>
+          </div>
+        </div>
+        <div class="topic-pills-wrapper" id="topic-pills-wrapper">
+          <!-- JS renders dynamic topic pills -->
+        </div>
+
+        <div class="vocab-layout">
+          <!-- Left: Add/Edit Form -->
+          <div class="panel">
+            <h3 class="panel-title" id="vocab-form-title"><i class="fa-solid fa-plus-circle"></i> Thêm từ vựng mới</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+              Nhập từ mới để lưu trữ vào kho từ vựng cá nhân của bạn.
+            </p>
+
+            <form id="vocab-form">
+              <input type="hidden" id="vocab-id">
+
+              <div class="form-group">
+                <label for="vocab-word">Từ tiếng Anh <span style="color:var(--color-accent)">*</span></label>
+                <input type="text" id="vocab-word" placeholder="Ví dụ: Ephemeral" required>
+              </div>
+
+              <div class="form-group">
+                <label for="vocab-topic"><i class="fa-solid fa-folder"></i> Chủ đề (Topic)</label>
+                <select id="vocab-topic"
+                  style="width: 100%; padding: 10px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 500;">
+                  <!-- JS will populate options dynamically from DB -->
+                  <option value="Coming and Going">✈️ Coming and Going (Du lịch & Di chuyển)</option>
+                  <option value="General">📚 Từ vựng chung (General)</option>
+                </select>
+              </div>
+
+              <div class="form-row" id="vocab-adv-fields-row" style="display: none;">
+                <div class="form-group">
+                  <label for="vocab-pronunciation">Phiên âm</label>
+                  <input type="text" id="vocab-pronunciation" placeholder="Ví dụ: /ɪˈfemərəl/">
+                </div>
+
+                <div class="form-group" style="flex-grow: 1;">
+                  <label>Loại từ</label>
+                  <div
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg-input); padding: 10px 12px; border: 1px solid var(--border-glass); border-radius: var(--border-radius-sm);"
+                    id="vocab-types-checkboxes">
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="noun" style="width: auto; cursor: pointer;">
+                      Danh từ
+                    </label>
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="verb" style="width: auto; cursor: pointer;">
+                      Động từ
+                    </label>
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="adjective"
+                        style="width: auto; cursor: pointer;"> Tính từ
+                    </label>
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="adverb" style="width: auto; cursor: pointer;">
+                      Trạng từ
+                    </label>
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="preposition"
+                        style="width: auto; cursor: pointer;"> Giới từ
+                    </label>
+                    <label
+                      style="display: flex; align-items: center; gap: 6px; text-transform: none; font-size: 13px; font-weight: normal; cursor: pointer; color: var(--text-main); margin-bottom: 0;">
+                      <input type="checkbox" name="vocab-type-cb" value="conjunction"
+                        style="width: auto; cursor: pointer;"> Liên từ
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="vocab-definition">Nghĩa tiếng Việt <span style="color:var(--color-accent)">*</span></label>
+                <input type="text" id="vocab-definition" placeholder="Ví dụ: Phù du, ngắn ngủi" required>
+              </div>
+
+              <div style="margin-bottom: 12px; margin-top: -4px;">
+                <button type="button" id="vocab-toggle-adv-btn"
+                  style="background: none; border: none; color: var(--color-primary-light); font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 4px 0;">
+                  <i class="fa-solid fa-sliders"></i> <span id="vocab-toggle-adv-text">Tùy chọn nâng cao (Phiên âm, Ví
+                    dụ, Ngữ pháp...)</span>
+                </button>
+              </div>
+
+              <div class="form-group" id="vocab-adv-fields-eg" style="display: none;">
+                <label for="vocab-example">Ví dụ minh họa (Tiếng Anh)</label>
+                <textarea id="vocab-example" rows="2" placeholder="Ví dụ: Life is short and ephemeral."></textarea>
+              </div>
+
+              <div class="form-group" id="vocab-adv-fields-eg-vi" style="display: none;">
+                <label for="vocab-example-translation">Dịch nghĩa ví dụ (Tiếng Việt)</label>
+                <textarea id="vocab-example-translation" rows="2"
+                  placeholder="Ví dụ: Cuộc đời thật ngắn ngủi và phù du."></textarea>
+              </div>
+
+              <div class="form-group" id="vocab-adv-fields-grammar" style="display: none;">
+                <label for="vocab-grammar-pattern">
+                  <i class="fa-solid fa-diagram-project" style="color: #ff9800;"></i>
+                  Cú pháp ngữ pháp sau từ
+                </label>
+                <input type="text" id="vocab-grammar-pattern"
+                  placeholder="Ví dụ: persist in/with + V-ing | sb to do sth | + of + N">
+                <small style="color: var(--text-muted); font-size: 11px; margin-top: 4px; display: block;">
+                  Nhập cú pháp / colocation đi theo sau từ này (tùy chọn, để trống nếu không có)
+                </small>
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" class="btn btn-primary" style="flex-grow: 1;" id="vocab-btn-submit">
+                  <i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng
+                </button>
+                <button type="button" class="btn btn-secondary" id="vocab-btn-cancel" style="display: none;">
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right: Vocabulary List & Search -->
+          <div class="panel">
+            <div class="vocab-toolbar">
+              <div class="search-box">
+                <input type="search" id="vocab-search" placeholder="Tìm kiếm từ tiếng Anh hoặc nghĩa tiếng Việt...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+
+              <select id="vocab-filter-topic" class="filter-select topic-select"
+                style="min-width: 170px; font-weight: 600;">
+                <option value="all">🌐 Tất cả chủ đề</option>
+                <!-- JS will populate dynamically -->
+              </select>
+
+              <select id="vocab-filter-type" class="filter-select">
+                <option value="all">Tất cả loại từ</option>
+                <option value="noun">Danh từ</option>
+                <option value="verb">Động từ</option>
+                <option value="adjective">Tính từ</option>
+                <option value="adverb">Trạng từ</option>
+                <option value="preposition">Giới từ</option>
+                <option value="conjunction">Liên từ</option>
+              </select>
+
+              <select id="vocab-filter-status" class="filter-select">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="learning">Đang học</option>
+                <option value="mastered">Đã nhớ</option>
+              </select>
+            </div>
+
+            <div class="vocab-stats-bar" id="vocab-stats-bar"
+              style="margin-top: 15px; margin-bottom: 15px; font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 15px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass);">
+              <!-- JS will update stats info -->
+            </div>
+
+            <div class="vocab-grid" id="vocab-cards-container">
+              <!-- Card items rendered by JS -->
+            </div>
+
+            <div class="vocab-pagination" id="vocab-pagination-container"
+              style="margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+              <!-- JS will render pagination buttons -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 30px; right: 30px; z-index: 2000; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/vocabulary.js"></script>
+</body>
+
+</html>

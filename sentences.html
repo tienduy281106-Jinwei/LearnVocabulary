@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tập đặt câu - VocabMaster</title>
+  <meta name="description"
+    content="Luyện tập đặt câu tiếng Anh ứng dụng trực tiếp từ vựng đã học để nâng cao kỹ năng diễn đạt tự nhiên.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-pen-nib" style="color: var(--color-primary-light);"></i>
+            <div>
+              <span class="stat-header-value" id="header-sentences-count">0</span>
+              <span class="stat-header-label">Câu đã đặt</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SECTION: SENTENCES -->
+      <section class="page-section active" id="sec-sentences">
+        <div class="vocab-layout">
+
+          <!-- Left: Add/Edit Sentence Form -->
+          <div class="panel">
+            <h3 class="panel-title" id="sentence-form-title"><i class="fa-solid fa-plus-circle"></i> Đặt câu tiếng Anh
+              mới</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+              Tạo câu ví dụ chứa từ vựng bạn muốn ghi nhớ. Việc vận dụng vào ngữ cảnh thực tế giúp nhớ từ lâu gấp 3 lần!
+            </p>
+
+            <form id="sentence-form">
+              <input type="hidden" id="sentence-id">
+
+              <div class="form-group">
+                <label for="sentence-target-word">Từ vựng mục tiêu (Target Word) <span
+                    style="color:var(--color-accent)">*</span></label>
+                <input type="text" id="sentence-target-word" placeholder="Ví dụ: ephemeral, persist, adapt..." required>
+              </div>
+
+              <div class="form-group">
+                <label for="sentence-en">Câu tiếng Anh <span style="color:var(--color-accent)">*</span></label>
+                <textarea id="sentence-en" rows="3" placeholder="Ví dụ: Beauty is ephemeral, but virtue lasts forever."
+                  required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="sentence-vi">Dịch nghĩa tiếng Việt</label>
+                <textarea id="sentence-vi" rows="2"
+                  placeholder="Ví dụ: Nhan sắc là phù du, nhưng phẩm hạnh thì trường tồn."></textarea>
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" class="btn btn-primary" style="flex-grow: 1;" id="sentence-btn-submit">
+                  <i class="fa-solid fa-floppy-disk"></i> Lưu câu đã đặt
+                </button>
+                <button type="button" class="btn btn-secondary" id="sentence-btn-cancel" style="display: none;">
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right: Sentences List -->
+          <div class="panel">
+            <div class="panel-header" style="margin-bottom: 20px;">
+              <h3 class="panel-title"><i class="fa-solid fa-quote-right"></i> Danh sách câu của bạn</h3>
+              <div class="search-box" style="width: 250px;">
+                <input type="search" id="sentence-search" placeholder="Tìm câu hoặc từ mục tiêu...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+
+            <div id="sentences-list-container" style="display: flex; flex-direction: column; gap: 12px;">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/sentences.js"></script>
+</body>
+
+</html>

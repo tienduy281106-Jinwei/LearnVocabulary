@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn tập Flashcards - VocabMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <span class="stat-header-value" id="header-total-vocab">0</span>
+              <span class="stat-header-label">Đã lưu</span>
+            </div>
+          </div>
+          <div class="stat-header-item">
+            <i class="fa-solid fa-circle-check" style="color: var(--color-success);"></i>
+            <div>
+              <span class="stat-header-value" id="header-mastered-vocab">0</span>
+              <span class="stat-header-label">Đã thuộc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- FLASHCARDS SECTION -->
+      <section class="page-section active" id="sec-flashcards">
+        <div class="panel" style="max-width: 800px; margin: 0 auto; width: 100%;">
+          <div class="panel-header" style="flex-wrap: wrap; gap: 10px;">
+            <h3 class="panel-title"><i class="fa-solid fa-clone"></i> Học từ vựng qua Flashcards</h3>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <select id="flash-filter-topic"
+                style="width: auto; padding: 6px 12px; font-size: 13px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600; cursor: pointer;">
+                <option value="all">🌐 Tất cả chủ đề</option>
+              </select>
+              <select id="flash-filter-limit"
+                style="width: auto; padding: 6px 12px; font-size: 13px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600; cursor: pointer;">
+                <option value="20">20 từ ngẫu nhiên</option>
+                <option value="50" selected>50 từ ngẫu nhiên</option>
+                <option value="100">100 từ ngẫu nhiên</option>
+                <option value="all">Tất cả các từ</option>
+              </select>
+              <button id="flash-btn-restart-session" class="btn btn-secondary"
+                style="padding: 6px 12px; font-size: 13px;">
+                <i class="fa-solid fa-rotate"></i> Lượt mới
+              </button>
+              <span id="flashcard-counter" class="flashcard-progress-text">0 / 0 từ</span>
+            </div>
+          </div>
+
+          <div class="flashcard-area">
+            <div class="flashcard-progress-bar">
+              <div class="flashcard-progress-fill" id="flash-progress-fill"></div>
+            </div>
+
+            <!-- The Flip Card -->
+            <div class="flashcard-container" id="flashcard-box">
+              <div class="flashcard-inner">
+                <!-- Front Side -->
+                <div class="flashcard-face flashcard-front">
+                  <div class="flashcard-hint"><i class="fa-solid fa-hand-pointer"></i> Nhấn vào thẻ để lật nghĩa</div>
+                  <div class="word" id="flash-word">—</div>
+                  <div class="phonetic" id="flash-phonetic"></div>
+                  <div class="vocab-card-type" id="flash-type"></div>
+                </div>
+
+                <!-- Back Side -->
+                <div class="flashcard-face flashcard-back">
+                  <div class="flashcard-hint"><i class="fa-solid fa-rotate-left"></i> Nhấn để xem lại mặt trước</div>
+                  <div class="definition" id="flash-definition"></div>
+                  <div class="example-box" id="flash-example-box">
+                    <div class="eg-eng" id="flash-example"></div>
+                    <div class="eg-vi" id="flash-example-translation"></div>
+                  </div>
+                  <div class="flash-grammar-pattern" id="flash-grammar-pattern" style="display: none;">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span id="flash-grammar-pattern-text"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="flashcard-controls">
+              <button class="btn btn-danger" id="flash-btn-again">
+                <i class="fa-solid fa-arrow-rotate-left"></i> Cần học lại
+              </button>
+              <button class="btn btn-secondary" id="flash-btn-speak">
+                <i class="fa-solid fa-volume-high"></i> Phát âm
+              </button>
+              <button class="btn btn-primary"
+                style="background: linear-gradient(135deg, var(--color-success) 0%, #00c853 100%); box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);"
+                id="flash-btn-know">
+                <i class="fa-solid fa-circle-check"></i> Đã thuộc từ này
+              </button>
+            </div>
+
+            <!-- Empty State -->
+            <div id="flash-empty-state" style="display: none; text-align: center; padding: 60px 20px;">
+              <i class="fa-solid fa-box-open"
+                style="font-size: 60px; color: var(--text-muted); margin-bottom: 20px;"></i>
+              <h3 style="color: var(--text-muted);">Chưa có từ vựng nào</h3>
+              <p style="color: var(--text-muted); margin-top: 10px;">Hãy thêm từ vựng vào kho từ vựng trước.</p>
+              <a href="vocabulary.html" class="btn btn-primary"
+                style="margin-top: 20px; display: inline-flex; gap: 8px;">
+                <i class="fa-solid fa-plus"></i> Thêm từ vựng
+              </a>
+            </div>
+
+            <!-- Done State -->
+            <div id="flash-done-state" style="display: none; text-align: center; padding: 60px 20px;">
+              <i class="fa-solid fa-trophy"
+                style="font-size: 60px; color: var(--color-warning); margin-bottom: 20px;"></i>
+              <h3 style="color: var(--text-main);">Hoàn thành lượt ôn tập!</h3>
+              <p id="flash-done-summary" style="color: var(--text-muted); margin-top: 10px;"></p>
+              <button id="flash-btn-new-session" class="btn btn-primary" style="margin-top: 20px;">
+                <i class="fa-solid fa-rotate"></i> Bắt đầu lượt mới
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/flashcards.js"></script>
+</body>
+
+</html>

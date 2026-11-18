@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng hợp tất cả từ vựng - VocabMaster</title>
+  <meta name="description"
+    content="Bảng tổng hợp chi tiết toàn bộ từ vựng trong hệ thống bao gồm dạng từ loại, nghĩa tiếng Việt và collocations.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <span class="stat-header-value" id="header-total-vocab">0</span>
+              <span class="stat-header-label">Đã lưu</span>
+            </div>
+          </div>
+          <div class="stat-header-item">
+            <i class="fa-solid fa-circle-check" style="color: var(--color-success);"></i>
+            <div>
+              <span class="stat-header-value" id="header-mastered-vocab">0</span>
+              <span class="stat-header-label">Đã thuộc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SECTION: ALL VOCABULARY -->
+      <section class="page-section active" id="sec-all-vocab">
+        <div class="panel">
+          <div class="panel-header" style="flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+            <div>
+              <h3 class="panel-title"><i class="fa-solid fa-table-list"></i> Tổng hợp tất cả từ vựng</h3>
+              <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">
+                Bảng tra cứu và ôn tập toàn bộ từ vựng trong hệ thống bao gồm phân loại, nghĩa tiếng Việt và cú pháp
+                câu.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" id="all-vocab-btn-export" title="Xuất danh sách ra file CSV">
+                <i class="fa-solid fa-file-csv"></i> Xuất CSV
+              </button>
+              <button class="btn btn-secondary btn-sm" id="all-vocab-btn-copy" title="Sao chép bảng vào bộ nhớ tạm">
+                <i class="fa-solid fa-copy"></i> Sao chép bảng
+              </button>
+            </div>
+          </div>
+
+          <!-- Toolbar: Search + Filters -->
+          <div class="vocab-toolbar" style="margin-bottom: 15px;">
+            <div class="search-box" style="flex-grow: 2;">
+              <input type="search" id="all-vocab-search" placeholder="Tìm kiếm từ tiếng Anh hoặc nghĩa tiếng Việt...">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <select id="all-vocab-filter-topic" class="filter-select topic-select"
+              style="min-width: 170px; font-weight: 600;">
+              <option value="all">🌐 Tất cả chủ đề</option>
+            </select>
+
+            <select id="all-vocab-filter-type" class="filter-select">
+              <option value="all">Tất cả loại từ</option>
+              <option value="noun">Danh từ</option>
+              <option value="verb">Động từ</option>
+              <option value="adjective">Tính từ</option>
+              <option value="adverb">Trạng từ</option>
+              <option value="preposition">Giới từ</option>
+              <option value="phrase">Cụm từ / Idiom</option>
+            </select>
+
+            <select id="all-vocab-filter-status" class="filter-select">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="learning">Đang học</option>
+              <option value="mastered">Đã thuộc</option>
+            </select>
+
+            <select id="all-vocab-per-page" class="filter-select" style="width: auto;">
+              <option value="25">25 từ / trang</option>
+              <option value="50" selected>50 từ / trang</option>
+              <option value="100">100 từ / trang</option>
+              <option value="all">Hiển thị tất cả</option>
+            </select>
+          </div>
+
+          <!-- Thống kê thông tin -->
+          <div class="vocab-stats-bar" id="all-vocab-stats-bar"
+            style="margin-bottom: 15px; font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 15px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass);">
+          </div>
+
+          <!-- Bảng hiển thị từ vựng -->
+          <div class="all-vocab-table-wrapper"
+            style="overflow-x: auto; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass);">
+            <table class="all-vocab-table" id="all-vocab-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr
+                  style="background: rgba(255,255,255,0.05); text-align: left; font-size: 13px; color: var(--text-muted);">
+                  <th style="width: 50px; text-align: center; padding: 12px 10px;">STT</th>
+                  <th style="width: 220px; padding: 12px 10px;">Từ vựng</th>
+                  <th style="width: 180px; padding: 12px 10px;">Chủ đề (Topic)</th>
+                  <th style="width: 110px; padding: 12px 10px;">Loại từ</th>
+                  <th style="padding: 12px 10px;">Nghĩa tiếng Việt</th>
+                  <th style="width: 180px; padding: 12px 10px;">Cú pháp / Ví dụ</th>
+                  <th style="width: 80px; text-align: center; padding: 12px 10px;">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody id="all-vocab-table-body">
+                <!-- JS will inject table rows here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Phân trang -->
+          <div class="vocab-pagination" id="all-vocab-pagination-container"
+            style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/all-vocab.js"></script>
+</body>
+
+</html>

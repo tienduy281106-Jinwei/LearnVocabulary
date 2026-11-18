@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabMaster - Góc Ngữ Pháp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <i class="fa-solid fa-graduation-cap" style="font-size:40px; color:var(--color-primary-light);"></i>
+            <div>
+              <h1 style="font-size:22px; font-weight:800; margin:0;">Góc Ngữ Pháp</h1>
+              <p style="font-size:13px; color:var(--text-muted); margin:0;">13 chủ điểm ngữ pháp thiết yếu — học & luyện
+                tập</p>
+            </div>
+          </div>
+        </div>
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-book"></i>
+            <div>
+              <span class="stat-header-value" id="header-grammar-count">13</span>
+              <span class="stat-header-label">Chủ điểm</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="page-section active">
+        <div class="grammar-layout">
+          <!-- Left: List of lessons -->
+          <div class="panel">
+            <h3 class="panel-title" style="margin-bottom: 15px;"><i class="fa-solid fa-book"></i> Chủ điểm ngữ pháp</h3>
+            <div class="grammar-sidebar-list" id="grammar-lesson-list">
+              <!-- JS renders lessons list -->
+            </div>
+
+            <!-- User custom note area -->
+            <div style="margin-top: 25px; border-top: 1px solid var(--border-glass); padding-top: 20px;">
+              <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">Thêm ghi chú ngữ pháp</h4>
+              <form id="grammar-form">
+                <div class="form-group">
+                  <input type="text" id="grammar-custom-title" placeholder="Tên chủ đề ngữ pháp..." required>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="grammar-custom-formula" placeholder="Công thức (Ví dụ: S + V...)">
+                </div>
+                <div class="form-group">
+                  <textarea id="grammar-custom-explanation" rows="3" placeholder="Cách dùng, giải thích và lưu ý..."
+                    required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;">
+                  <i class="fa-solid fa-plus"></i> Lưu chủ đề mới
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right: Lesson details -->
+          <div class="panel" id="grammar-detail-panel">
+            <div class="grammar-detail-content" id="grammar-detail-view">
+              <div class="grammar-header-block">
+                <span class="vocab-card-type">Chủ đề</span>
+                <h2 class="grammar-title" id="g-view-title">Thì Hiện tại đơn</h2>
+                <div class="grammar-formula-card" id="g-view-formula">
+                  S + V(s/es)
+                </div>
+              </div>
+
+              <div>
+                <h3 class="grammar-section-title"><i class="fa-solid fa-circle-info"></i> Cách dùng & giải thích</h3>
+                <p class="grammar-text-explanation" id="g-view-explanation">
+                  Nội dung đang được cập nhật...
+                </p>
+              </div>
+
+              <div>
+                <h3 class="grammar-section-title"><i class="fa-solid fa-lightbulb"></i> Ví dụ minh họa</h3>
+                <div class="grammar-examples-list" id="g-view-examples">
+                  <!-- Example items -->
+                </div>
+              </div>
+
+              <div style="margin-top: 20px; text-align: right;" id="g-delete-action-container">
+                <!-- JS will inject delete button if it is a user-created note -->
+              </div>
+
+              <!-- LUYỆN TẬP NGỮ PHÁP TƯƠNG TÁC -->
+              <div style="margin-top: 30px; border-top: 1px solid var(--border-glass); padding-top: 25px;"
+                id="g-practice-container">
+                <h3 class="grammar-section-title"><i class="fa-solid fa-dumbbell"></i> Luyện tập ngữ pháp</h3>
+
+                <!-- Tab Buttons -->
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                  <button type="button" class="btn btn-secondary btn-sm" id="g-btn-tab-write"
+                    style="border-radius: var(--border-radius-sm); border: 1px solid var(--border-active); background: rgba(123, 97, 255, 0.15);">
+                    <i class="fa-solid fa-pen-clip"></i> Luyện viết câu (Chấm điểm 10)
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="g-btn-tab-mcq"
+                    style="border-radius: var(--border-radius-sm);">
+                    <i class="fa-solid fa-list-check"></i> Trắc nghiệm chia động từ (10 câu)
+                  </button>
+                </div>
+
+                <!-- TAB 1: LUYỆN VIẾT CÂU -->
+                <div id="g-tab-content-write" style="display: flex; flex-direction: column; gap: 15px;">
+                  <p style="font-size: 13px; color: var(--text-muted);">
+                    Viết một câu tiếng Anh áp dụng đúng chủ điểm ngữ pháp ở trên. Hệ thống sẽ phân tích cấu trúc và chấm
+                    điểm trên thang điểm 10.
+                  </p>
+                  <div class="form-group">
+                    <textarea id="g-write-input" rows="3"
+                      placeholder="Nhập câu tiếng Anh bạn tự đặt ở đây..."></textarea>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="g-write-btn-grade" style="align-self: flex-start;">
+                    <i class="fa-solid fa-graduation-cap"></i> Chấm điểm câu viết
+                  </button>
+
+                  <div id="g-write-result-box"
+                    style="display: none; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-glass); border-radius: var(--border-radius-md); padding: 20px; display: none; align-items: center; gap: 20px;">
+                    <div
+                      style="width: 80px; height: 80px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; border: 3px solid var(--color-primary); box-shadow: var(--shadow-neon);"
+                      id="g-write-score-circle">
+                      <span style="font-size: 24px;" id="g-write-score-val">0</span>
+                      <span
+                        style="font-size: 10px; color: var(--text-muted); font-family: var(--font-secondary);">Điểm</span>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 6px;" id="g-write-result-title">Kết
+                        quả chấm điểm</h4>
+                      <p style="font-size: 13px; line-height: 1.5; color: var(--text-muted);" id="g-write-result-desc">
+                        Nhận xét chi tiết của hệ thống...</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TAB 2: TRẮC NGHIỆM CHIA ĐỘNG TỪ -->
+                <div id="g-tab-content-mcq" style="display: none; flex-direction: column; gap: 15px;">
+                  <!-- Setup screen -->
+                  <div id="g-mcq-setup"
+                    style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 0; gap: 15px;">
+                    <i class="fa-solid fa-file-signature" style="font-size: 40px; color: var(--color-secondary);"></i>
+                    <h4 style="font-weight: 700;">Bài kiểm tra trắc nghiệm 10 câu</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); max-width: 450px; line-height: 1.5;">
+                      Hệ thống sẽ cung cấp 10 câu hỏi trắc nghiệm chia động từ của chủ điểm này. Mỗi câu đúng được tính
+                      1 điểm (tổng điểm tối đa là 10).
+                    </p>
+                    <button type="button" class="btn btn-primary" id="g-mcq-btn-start">Bắt đầu làm bài test</button>
+                  </div>
+
+                  <!-- Play screen -->
+                  <div id="g-mcq-play" style="display: none; flex-direction: column; gap: 15px;">
+                    <div
+                      style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); font-family: var(--font-secondary);">
+                      <span id="g-mcq-progress">Câu 1/10</span>
+                      <span id="g-mcq-score">Điểm: 0</span>
+                    </div>
+                    <div class="flashcard-progress-bar" style="margin-bottom: 10px;">
+                      <div class="flashcard-progress-fill" id="g-mcq-progress-fill" style="width: 10%;"></div>
+                    </div>
+                    <div class="quiz-question-box"
+                      style="padding: 20px; border-radius: var(--border-radius-sm); margin-bottom: 10px;">
+                      <h4 id="g-mcq-question-text" style="font-size: 16px; font-weight: 600; line-height: 1.5;">He
+                        usually (go) _______ to school by bus.</h4>
+                    </div>
+                    <div class="quiz-options-grid" id="g-mcq-options" style="gap: 8px;">
+                      <!-- Buttons loaded by JS -->
+                    </div>
+                    <div id="g-mcq-feedback-box"
+                      style="display: none; padding: 12px 16px; background: rgba(0, 242, 254, 0.05); border-left: 3px solid var(--color-secondary); border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0; font-size: 12px; line-height: 1.5;">
+                      <strong id="g-mcq-feedback-status" style="display: block; margin-bottom: 4px;">Chính xác!</strong>
+                      <span id="g-mcq-feedback-text">Giải thích...</span>
+                    </div>
+                    <div style="text-align: right;">
+                      <button type="button" class="btn btn-secondary btn-sm" id="g-mcq-btn-next"
+                        style="display: none;">Câu tiếp theo <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- Result screen -->
+                  <div id="g-mcq-result"
+                    style="display: none; flex-direction: column; align-items: center; text-align: center; padding: 25px 15px; gap: 20px;">
+                    <i class="fa-solid fa-graduation-cap" style="font-size: 50px; color: var(--color-warning);"
+                      id="g-mcq-res-icon"></i>
+                    <h4 style="font-size: 18px; font-weight: 700;" id="g-mcq-res-title">Hoàn thành bài kiểm tra!</h4>
+                    <div
+                      style="width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; border: 4px solid var(--color-success); box-shadow: var(--shadow-neon);">
+                      <span style="font-size: 32px;" id="g-mcq-res-score">8</span>
+                      <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-secondary);">/ 10
+                        điểm</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); max-width: 400px; line-height: 1.5;"
+                      id="g-mcq-res-desc">Bạn đã đạt được kết quả khá tốt. Hãy tiếp tục học các cấu trúc tiếp theo nhé!
+                    </p>
+                    <div style="display: flex; gap: 10px;">
+                      <button type="button" class="btn btn-primary btn-sm" id="g-mcq-btn-restart">Làm lại bài
+                        test</button>
+                      <button type="button" class="btn btn-secondary btn-sm" id="g-mcq-btn-finish">Hoàn tất</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container"
+    style="position: fixed; bottom: 30px; right: 30px; z-index: 2000; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/grammar.js"></script>
+</body>
+
+</html>

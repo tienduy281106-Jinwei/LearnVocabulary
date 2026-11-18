@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiểm tra từ vựng - VocabMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <span class="stat-header-value" id="header-total-vocab">0</span>
+              <span class="stat-header-label">Đã lưu</span>
+            </div>
+          </div>
+          <div class="stat-header-item">
+            <i class="fa-solid fa-circle-check" style="color: var(--color-success);"></i>
+            <div>
+              <span class="stat-header-value" id="header-mastered-vocab">0</span>
+              <span class="stat-header-label">Đã thuộc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- QUIZ SECTION -->
+      <section class="page-section active" id="sec-quiz">
+        <div class="panel quiz-container">
+
+          <!-- QUIZ SETUP / START SCREEN -->
+          <div id="quiz-setup-screen" class="quiz-setup">
+            <i class="fa-solid fa-brain" style="font-size: 64px; color: var(--color-primary-light);"></i>
+            <h2 style="font-size: 26px; font-weight: 700; margin-top: 10px;">Kiểm tra năng lực từ vựng</h2>
+            <p style="color: var(--text-muted); max-width: 500px; line-height: 1.6;">
+              Hệ thống sẽ lấy từ vựng theo chủ đề bạn chọn để tạo đề kiểm tra trắc nghiệm hoặc điền từ. Hãy thử sức ngay
+              nào! 🎯
+            </p>
+
+            <div
+              style="margin-top: 10px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); padding: 12px 20px; border-radius: var(--border-radius-sm);">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="quiz-filter-topic"
+                  style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 0;">Chủ đề
+                  học:</label>
+                <select id="quiz-filter-topic"
+                  style="width: auto; padding: 6px 16px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600; cursor: pointer;">
+                  <option value="all">🌐 Tất cả chủ đề</option>
+                </select>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="quiz-question-count"
+                  style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 0;">Số câu
+                  hỏi:</label>
+                <select id="quiz-question-count"
+                  style="width: auto; padding: 6px 16px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600; cursor: pointer;">
+                  <option value="5">5 câu</option>
+                  <option value="10" selected>10 câu</option>
+                  <option value="20">20 câu</option>
+                  <option value="50">50 câu</option>
+                  <option value="all">Tất cả từ thuộc chủ đề</option>
+                </select>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="quiz-source"
+                  style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 0;">Nguồn câu
+                  hỏi:</label>
+                <select id="quiz-source"
+                  style="width: auto; padding: 6px 16px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600; cursor: pointer;">
+                  <option value="vocab">Từ trong kho từ vựng</option>
+                  <option value="both">Kho từ + ngân hàng câu hỏi</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="quiz-modes">
+              <div class="mode-card" id="quiz-mode-mcq">
+                <i class="fa-solid fa-list-check"></i>
+                <h3>Trắc nghiệm (MCQ)</h3>
+                <p>Chọn định nghĩa tiếng Việt đúng nhất cho từ tiếng Anh được hiển thị.</p>
+              </div>
+
+              <div class="mode-card" id="quiz-mode-fitb">
+                <i class="fa-solid fa-keyboard"></i>
+                <h3>Điền từ vào ô trống</h3>
+                <p>Hệ thống cho định nghĩa và ví dụ, bạn hãy nhập chính xác từ tiếng Anh cần tìm.</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 30px; display: none;" id="quiz-empty-warning">
+              <p style="color: var(--color-warning); font-weight: 500;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Bạn cần có tối thiểu <strong>4 từ vựng</strong> để bắt
+                đầu kiểm tra. Hãy thêm từ vào kho từ vựng!
+              </p>
+            </div>
+          </div>
+
+          <!-- QUIZ PLAY SCREEN -->
+          <div id="quiz-play-screen" class="quiz-active" style="display: none;">
+            <div class="quiz-header">
+              <span id="quiz-progress-text">Câu hỏi 1/10</span>
+              <span id="quiz-score-live">Điểm: 0</span>
+            </div>
+
+            <div class="flashcard-progress-bar" style="margin-bottom: 25px;">
+              <div class="flashcard-progress-fill" id="quiz-progress-fill" style="width: 10%;"></div>
+            </div>
+
+            <div class="quiz-question-box">
+              <span class="quiz-question-label" id="quiz-q-label">Hãy tìm nghĩa đúng của từ</span>
+              <h3 class="quiz-question-text" id="quiz-q-text"></h3>
+              <p class="quiz-question-sub" id="quiz-q-sub"></p>
+            </div>
+
+            <!-- MCQ Option Mode Container -->
+            <div class="quiz-options-grid" id="quiz-options-container">
+              <!-- JS will inject buttons here -->
+            </div>
+
+            <!-- Fill In The Blank Mode Container -->
+            <div class="quiz-input-container" id="quiz-input-container" style="display: none;">
+              <input type="text" id="quiz-input-answer" placeholder="Nhập từ tiếng Anh cần tìm..." autocomplete="off">
+              <button class="btn btn-primary" id="quiz-btn-submit-answer">Gửi đáp án</button>
+            </div>
+
+            <!-- Feedback -->
+            <div id="quiz-feedback-box"
+              style="display: none; margin-top: 15px; padding: 14px 18px; border-radius: var(--border-radius-sm); font-size: 14px; font-weight: 500;">
+            </div>
+
+            <div style="text-align: right; margin-top: 15px;">
+              <button class="btn btn-secondary" id="quiz-btn-next" style="display: none;">Tiếp tục <i
+                  class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- QUIZ RESULTS SCREEN -->
+          <div id="quiz-result-screen" class="quiz-results" style="display: none;">
+            <i class="fa-solid fa-trophy" style="font-size: 60px; color: var(--color-warning);"
+              id="quiz-result-icon"></i>
+            <h2 id="quiz-result-title">Hoàn thành bài kiểm tra!</h2>
+            <p id="quiz-result-message">Chúc mừng bạn! Bạn đã thể hiện rất tốt mức độ hiểu biết từ vựng.</p>
+
+            <div class="score-circle">
+              <span class="score-value" id="quiz-final-score">0/10</span>
+              <span class="score-total">Chính xác</span>
+            </div>
+
+            <!-- Wrong answers review -->
+            <div id="quiz-wrong-review"
+              style="display: none; text-align: left; max-width: 600px; margin: 20px auto 0; background: rgba(255,77,106,0.05); border: 1px solid rgba(255,77,106,0.3); border-radius: var(--border-radius-md); padding: 20px;">
+              <h4 style="color: var(--color-danger); margin-bottom: 12px;"><i
+                  class="fa-solid fa-circle-exclamation"></i> Các từ cần ôn lại:</h4>
+              <ul id="quiz-wrong-list"
+                style="list-style: disc; padding-left: 20px; font-size: 14px; display: flex; flex-direction: column; gap: 6px;">
+              </ul>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+              <button class="btn btn-primary" id="quiz-btn-restart">Làm bài test mới</button>
+              <button class="btn btn-secondary" id="quiz-btn-exit">Trở lại Setup</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+
+</html>

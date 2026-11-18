@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Từ vựng theo Chủ đề - Quản trị VocabMaster</title>
+  <meta name="description" content="Nhánh 1: Thêm và quản lý lượng từ vựng theo chủ đề, tạo chủ đề mới, nhập từ vựng từ CSV.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="admin-body">
+
+  <div class="admin-shell">
+
+    <!-- Topbar Navigation -->
+    <header class="admin-topbar">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="../index.html" class="admin-brand">
+          <div class="admin-brand-logo">LV</div>
+          <span class="admin-brand-name">VocabMaster Admin</span>
+        </a>
+
+        <nav class="admin-breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+          <span class="sep">/</span>
+          <span>Quản trị</span>
+          <span class="sep">/</span>
+          <span class="current">📚 Quản lý từ vựng theo Topic</span>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+        <a href="quiz-manager.html" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-list-check"></i> Chuyển sang Quản lý Câu hỏi
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-arrow-left"></i> Về Ứng dụng
+        </a>
+        <button class="theme-toggle-btn" id="theme-toggle" type="button" style="padding: 6px 14px;">
+          <div class="theme-icon-container">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span id="theme-text">Chế độ tối</span>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Admin Content Grid -->
+    <div style="display: grid; grid-template-columns: 420px 1fr; gap: 24px; align-items: start;">
+
+      <!-- Left Column: Add / Edit Form + Add Topic Modal -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+
+        <!-- Panel Thêm từ vựng -->
+        <div class="panel" style="padding: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 class="panel-title" id="form-vocab-title" style="font-size: 18px;">
+              <i class="fa-solid fa-plus-circle" style="color: var(--admin-accent);"></i> Thêm Từ Vựng Mới
+            </h3>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-create-topic-modal" style="font-size: 12px; padding: 4px 10px;">
+              <i class="fa-solid fa-folder-plus"></i> + Tạo Topic
+            </button>
+          </div>
+
+          <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+            Nhập lượng từ vựng vào từng chủ đề. Dữ liệu sẽ lưu trữ trực tiếp vào IndexedDB.
+          </p>
+
+          <form id="admin-vocab-form">
+            <input type="hidden" id="admin-vocab-id">
+
+            <div class="form-group">
+              <label for="admin-vocab-topic">Chủ đề (Topic) <span style="color:var(--color-accent)">*</span></label>
+              <select id="admin-vocab-topic" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600;" required>
+                <!-- Dynamic topics injected by JS -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-vocab-word">Từ tiếng Anh <span style="color:var(--color-accent)">*</span></label>
+              <input type="text" id="admin-vocab-word" placeholder="Ví dụ: Biodiversity, Resilient, ..." required>
+            </div>
+
+            <div class="form-row" style="display: flex; gap: 12px;">
+              <div class="form-group" style="flex: 1;">
+                <label for="admin-vocab-pronunciation">Phiên âm IPA</label>
+                <input type="text" id="admin-vocab-pronunciation" placeholder="/.../">
+              </div>
+
+              <div class="form-group" style="flex: 1;">
+                <label for="admin-vocab-type">Loại từ</label>
+                <select id="admin-vocab-type" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main);">
+                  <option value="noun">Danh từ (n)</option>
+                  <option value="verb">Động từ (v)</option>
+                  <option value="adjective">Tính từ (adj)</option>
+                  <option value="adverb">Trạng từ (adv)</option>
+                  <option value="preposition">Giới từ (prep)</option>
+                  <option value="phrase">Cụm từ / Idiom</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-vocab-definition">Nghĩa tiếng Việt <span style="color:var(--color-accent)">*</span></label>
+              <input type="text" id="admin-vocab-definition" placeholder="Ví dụ: Đa dạng sinh học" required>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-vocab-example">Ví dụ minh họa (Tiếng Anh)</label>
+              <textarea id="admin-vocab-example" rows="2" placeholder="Ví dụ: Climate change poses a threat to biodiversity."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-vocab-translation">Dịch nghĩa ví dụ (Tiếng Việt)</label>
+              <textarea id="admin-vocab-translation" rows="2" placeholder="Ví dụ: Biến đổi khí hậu đe dọa sự đa dạng sinh học."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-vocab-grammar">Cú pháp ngữ pháp / Collocation</label>
+              <input type="text" id="admin-vocab-grammar" placeholder="Ví dụ: adapt to sth | threat to sth">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button type="submit" class="btn btn-primary" id="admin-btn-save-vocab" style="flex-grow: 1;">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu từ vựng
+              </button>
+              <button type="button" class="btn btn-secondary" id="admin-btn-cancel-edit" style="display: none;">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Panel Import CSV -->
+        <div class="panel" style="padding: 20px;">
+          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-file-import" style="color: var(--color-success);"></i> Nhập từ vựng hàng loạt (CSV)
+          </h4>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+            Định dạng mỗi dòng: <code>Từ, Phiên âm, Loại từ, Nghĩa, Chủ đề</code>
+          </p>
+          <input type="file" id="admin-csv-file" accept=".csv, .txt" style="display: none;">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-trigger-csv-import" style="width: 100%;">
+            <i class="fa-solid fa-upload"></i> Chọn file CSV để nạp vào DB
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Topic Tabs + Vocab Data Table -->
+      <div class="panel" style="padding: 24px;">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+          <div>
+            <h3 class="panel-title" style="font-size: 20px;">
+              <i class="fa-solid fa-layer-group" style="color: var(--admin-accent);"></i> Danh Sách Từ Vựng Theo Chủ Đề
+            </h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">
+              Xem, tìm kiếm, chỉnh sửa và quản lý từ vựng lưu trong cơ sở dữ liệu.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-secondary btn-sm" id="admin-btn-export-csv">
+              <i class="fa-solid fa-download"></i> Xuất CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Topic Pills Bar -->
+        <div class="topic-pills-wrapper" id="admin-topic-pills" style="margin-bottom: 20px;">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="vocab-toolbar" style="margin-bottom: 16px;">
+          <div class="search-box" style="flex-grow: 2;">
+            <input type="search" id="admin-vocab-search" placeholder="Tìm theo từ tiếng Anh hoặc nghĩa tiếng Việt...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+
+          <select id="admin-filter-type" class="filter-select">
+            <option value="all">Tất cả loại từ</option>
+            <option value="noun">Danh từ</option>
+            <option value="verb">Động từ</option>
+            <option value="adjective">Tính từ</option>
+            <option value="adverb">Trạng từ</option>
+            <option value="phrase">Cụm từ / Idiom</option>
+          </select>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="vocab-stats-bar" id="admin-vocab-stats-bar" style="margin-bottom: 16px; font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-glass);">
+        </div>
+
+        <!-- Data Table -->
+        <div class="all-vocab-table-wrapper" style="overflow-x: auto; border-radius: 8px; border: 1px solid var(--border-glass);">
+          <table class="all-vocab-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.04); text-align: left; font-size: 13px; color: var(--text-muted);">
+                <th style="width: 50px; text-align: center; padding: 12px 10px;">STT</th>
+                <th style="width: 180px; padding: 12px 10px;">Từ vựng</th>
+                <th style="width: 160px; padding: 12px 10px;">Chủ đề</th>
+                <th style="width: 100px; padding: 12px 10px;">Loại từ</th>
+                <th style="padding: 12px 10px;">Nghĩa tiếng Việt</th>
+                <th style="width: 180px; padding: 12px 10px;">Cú pháp / Collocation</th>
+                <th style="width: 100px; text-align: center; padding: 12px 10px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="admin-vocab-tbody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="vocab-pagination" id="admin-vocab-pagination" style="margin-top: 20px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Modal: Tạo Topic mới -->
+    <div id="modal-create-topic" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center;">
+      <div style="background: var(--bg-card, #1e1b2e); border: 1px solid var(--admin-border); border-radius: 16px; padding: 28px; width: 440px; max-width: 90vw; box-shadow: var(--admin-shadow);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="font-size: 18px; font-weight: 700; color: var(--text-main);"><i class="fa-solid fa-folder-plus" style="color:var(--admin-accent);"></i> Tạo Chủ Đề (Topic) Mới</h3>
+          <button type="button" class="btn-icon" id="btn-close-topic-modal" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <form id="form-new-topic">
+          <div class="form-group">
+            <label for="new-topic-name">Tên chủ đề <span style="color:var(--color-accent)">*</span></label>
+            <input type="text" id="new-topic-name" placeholder="Ví dụ: Artificial Intelligence, Travel..." required>
+          </div>
+          <div class="form-group">
+            <label for="new-topic-icon">Biểu tượng (Icon Emoji)</label>
+            <input type="text" id="new-topic-icon" placeholder="Ví dụ: 🤖, 🚀, 🌿..." value="🏷️">
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="flex-grow: 1;">Xác nhận tạo Topic</button>
+            <button type="button" class="btn btn-secondary" id="btn-cancel-topic-modal">Hủy</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
+  <!-- Scripts -->
+  <script src="../js/db.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/pdf_data.js"></script>
+  <script src="../js/seeder.js"></script>
+  <script src="../js/shared.js"></script>
+  <script src="../js/admin/vocab-admin.js"></script>
+</body>
+
+</html>
+

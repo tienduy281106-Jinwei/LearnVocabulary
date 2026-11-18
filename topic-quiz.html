@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiểm tra theo Topic - VocabMaster</title>
+  <meta name="description"
+    content="Kiểm tra từ vựng chuyên sâu theo từng chủ đề bài đọc IELTS với các chế độ MCQ, FITB, Luyện nghe và Ghép thẻ.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-database"></i>
+            <div>
+              <span class="stat-header-value" id="header-total-vocab">0</span>
+              <span class="stat-header-label">Đã lưu</span>
+            </div>
+          </div>
+          <div class="stat-header-item">
+            <i class="fa-solid fa-circle-check" style="color: var(--color-success);"></i>
+            <div>
+              <span class="stat-header-value" id="header-mastered-vocab">0</span>
+              <span class="stat-header-label">Đã thuộc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SECTION: TOPIC QUIZ -->
+      <section class="page-section active" id="sec-topic-quiz">
+        <div class="panel">
+
+          <!-- 1. TOPIC QUIZ SETUP SCREEN -->
+          <div id="tquiz-setup-screen">
+            <div class="panel-header" style="margin-bottom: 25px;">
+              <div>
+                <h2 class="panel-title" style="font-size: 22px;">
+                  <i class="fa-solid fa-clipboard-check" style="color: var(--color-accent);"></i>
+                  Kiểm tra từ vựng theo Topic
+                </h2>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">
+                  Luyện tập các bài kiểm tra chuyên sâu theo từng chủ đề bài đọc IELTS. Hệ thống tự động sửa lỗi và giải
+                  thích khi làm sai.
+                </p>
+              </div>
+            </div>
+
+            <!-- Topic Cards Grid -->
+            <div style="margin-bottom: 30px;">
+              <h3
+                style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-layer-group" style="color: var(--color-primary-light);"></i> 1. Chọn Topic kiểm
+                tra
+              </h3>
+              <div class="topic-quiz-grid" id="tquiz-cards-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;">
+                <!-- JS will render topic selector cards here -->
+              </div>
+            </div>
+
+            <!-- Quiz Mode Cards Selection -->
+            <div style="margin-bottom: 30px;">
+              <h3
+                style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-gamepad" style="color: var(--color-secondary);"></i> 2. Chọn hình thức kiểm tra
+              </h3>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+
+                <div class="tquiz-mode-card active" data-tmode="mcq" id="tmode-mcq"
+                  style="cursor: pointer; padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid var(--color-primary); transition: all 0.2s;">
+                  <div class="tquiz-mode-icon"
+                    style="font-size: 24px; color: var(--color-primary); margin-bottom: 8px;"><i
+                      class="fa-solid fa-list-check"></i></div>
+                  <h4 style="color: var(--text-main); margin-bottom: 6px;">Trắc nghiệm (MCQ)</h4>
+                  <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Chọn đáp án chính xác nhất để
+                    điền vào câu từ 4 phương án.</p>
+                </div>
+
+                <div class="tquiz-mode-card" data-tmode="fitb" id="tmode-fitb"
+                  style="cursor: pointer; padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid var(--border-glass); transition: all 0.2s;">
+                  <div class="tquiz-mode-icon"
+                    style="font-size: 24px; color: var(--color-secondary); margin-bottom: 8px;"><i
+                      class="fa-solid fa-keyboard"></i></div>
+                  <h4 style="color: var(--text-main); margin-bottom: 6px;">Gõ từ tiếng Anh (FITB)</h4>
+                  <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Nhập chính xác từ tiếng Anh
+                    còn thiếu vào chỗ trống.</p>
+                </div>
+
+                <div class="tquiz-mode-card" data-tmode="audio" id="tmode-audio"
+                  style="cursor: pointer; padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid var(--border-glass); transition: all 0.2s;">
+                  <div class="tquiz-mode-icon"
+                    style="font-size: 24px; color: var(--color-warning); margin-bottom: 8px;"><i
+                      class="fa-solid fa-volume-high"></i></div>
+                  <h4 style="color: var(--text-main); margin-bottom: 6px;">Luyện nghe phát âm</h4>
+                  <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Nghe phát âm chuẩn bản ngữ và
+                    chọn từ vựng tương ứng.</p>
+                </div>
+
+                <div class="tquiz-mode-card" data-tmode="match" id="tmode-match"
+                  style="cursor: pointer; padding: 18px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid var(--border-glass); transition: all 0.2s;">
+                  <div class="tquiz-mode-icon"
+                    style="font-size: 24px; color: var(--color-success); margin-bottom: 8px;"><i
+                      class="fa-solid fa-puzzle-piece"></i></div>
+                  <h4 style="color: var(--text-main); margin-bottom: 6px;">Ghép từ & Định nghĩa</h4>
+                  <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Nối cặp từ tiếng Anh và nghĩa
+                    tiếng Việt trong bảng tương tác.</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Question count selection -->
+            <div style="margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 12px;">
+              <label for="tquiz-question-count-select" style="font-weight: 600; color: var(--text-main);">Số lượng câu
+                hỏi:</label>
+              <select id="tquiz-question-count-select"
+                style="padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600;">
+                <option value="10">10 câu</option>
+                <option value="20" selected>20 câu</option>
+                <option value="50">50 câu</option>
+                <option value="all">Tất cả câu hỏi của Topic</option>
+              </select>
+            </div>
+
+            <!-- Start Action Button -->
+            <div style="text-align: center; margin-top: 25px;">
+              <button class="btn btn-primary" id="btn-start-tquiz-custom"
+                style="padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: var(--border-radius-md); box-shadow: var(--shadow-neon);">
+                <i class="fa-solid fa-play"></i> Bắt đầu kiểm tra (<span id="tquiz-selected-topic-title">Why We Need to
+                  Protect Polar Bears</span>)
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. TOPIC QUIZ PLAY ARENA -->
+          <div id="tquiz-play-arena" style="display: none;">
+
+            <!-- Top Header & Timer Bar -->
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <span class="vocab-card-type" id="tquiz-arena-topic-badge">🐻‍❄️ Why We Need to Protect Polar
+                  Bears</span>
+                <span style="font-weight: 700; font-size: 16px; margin-left: 8px; color: var(--text-main);"
+                  id="tquiz-arena-mode-badge">Trắc nghiệm</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="font-weight: 700; color: var(--color-warning);">
+                  <i class="fa-solid fa-stopwatch"></i> <span id="tquiz-timer-text">00:00</span>
+                </div>
+                <div style="font-weight: 700; color: var(--color-success);" id="tquiz-live-score">
+                  Điểm: 0
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btn-exit-tquiz"
+                  style="padding: 4px 10px; font-size: 12px;">
+                  <i class="fa-solid fa-xmark"></i> Thoát
+                </button>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="flashcard-progress-bar" style="margin-bottom: 25px;">
+              <div class="flashcard-progress-fill" id="tquiz-progress-fill" style="width: 0%;"></div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="quiz-question-box" id="tquiz-question-box" style="margin-bottom: 25px;">
+              <span class="quiz-question-label" id="tquiz-q-num">Câu hỏi 1 / 20</span>
+              <h3 class="quiz-question-text" id="tquiz-q-text"
+                style="font-size: 20px; line-height: 1.5; margin-top: 10px;">
+                Without sufficient food, female bears may experience severe weight loss during _______.
+              </h3>
+              <p class="quiz-question-sub" id="tquiz-q-sub" style="margin-top: 6px;"></p>
+            </div>
+
+            <!-- Options Grid (MCQ / Audio) -->
+            <div class="quiz-options-grid" id="tquiz-options-container">
+              <!-- Rendered by JS -->
+            </div>
+
+            <!-- Input Container (FITB) -->
+            <div class="quiz-input-container" id="tquiz-fitb-container" style="display: none;">
+              <input type="text" id="tquiz-input-answer" placeholder="Gõ từ tiếng Anh cần điền..." autocomplete="off">
+              <button class="btn btn-primary" id="tquiz-btn-submit-fitb">Gửi câu trả lời</button>
+            </div>
+
+            <!-- Match Arena (Ghép thẻ) -->
+            <div id="tquiz-match-container" style="display: none;">
+              <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">
+                Nhấn vào một từ tiếng Anh và sau đó nhấn vào nghĩa tiếng Việt tương ứng để ghép cặp.
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" id="tquiz-match-grid">
+                <!-- JS will inject cards -->
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="text-align: right; margin-top: 20px;">
+              <button class="btn btn-secondary" id="tquiz-btn-next" style="display: none;">
+                Câu tiếp theo <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- 3. TOPIC QUIZ RESULTS SCREEN -->
+          <div id="tquiz-result-screen" class="quiz-results" style="display: none;">
+            <i class="fa-solid fa-trophy" style="font-size: 60px; color: var(--color-warning);" id="tquiz-res-icon"></i>
+            <h2 id="tquiz-res-title" style="margin-top: 12px;">Hoàn thành bài kiểm tra Topic!</h2>
+            <p id="tquiz-res-subtitle" style="color: var(--text-muted); margin-top: 6px;">Chúc mừng bạn đã hoàn thành
+              bài kiểm tra.</p>
+
+            <div class="score-circle" style="margin: 25px auto;">
+              <span class="score-value" id="tquiz-res-score">18/20</span>
+              <span class="score-total" id="tquiz-res-percent">90% Chính xác</span>
+            </div>
+
+            <div
+              style="display: flex; justify-content: center; gap: 25px; margin: 20px 0; color: var(--text-muted); font-size: 14px;">
+              <div><i class="fa-solid fa-clock"></i> Thời gian: <strong id="tquiz-res-time"
+                  style="color:var(--text-main);">02:45</strong></div>
+              <div><i class="fa-solid fa-circle-check" style="color:var(--color-success);"></i> Đúng: <strong
+                  id="tquiz-res-correct" style="color:var(--color-success);">18</strong></div>
+              <div><i class="fa-solid fa-circle-xmark" style="color:var(--color-danger);"></i> Sai: <strong
+                  id="tquiz-res-wrong" style="color:var(--color-danger);">2</strong></div>
+            </div>
+
+            <!-- Wrong answers correction list -->
+            <div id="tquiz-wrong-review-box"
+              style="display: none; text-align: left; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; margin: 25px 0;">
+              <h4
+                style="color: var(--color-danger); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-lightbulb" style="color: var(--color-warning);"></i> Hướng dẫn sửa lỗi cho các câu
+                làm sai:
+              </h4>
+              <div id="tquiz-wrong-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
+              <button class="btn btn-primary" id="btn-tquiz-retry">
+                <i class="fa-solid fa-rotate"></i> Làm lại bài này
+              </button>
+              <button class="btn btn-secondary" id="btn-tquiz-change-topic">
+                <i class="fa-solid fa-list"></i> Chọn Topic khác
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/topic-quiz.js"></script>
+</body>
+
+</html>

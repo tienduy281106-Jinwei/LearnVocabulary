@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Câu hỏi Kiểm tra - Quản trị VocabMaster</title>
+  <meta name="description" content="Nhánh 2: Thêm các câu hỏi vào bài kiểm tra trắc nghiệm và điền từ, thiết lập đáp án và hướng dẫn sửa lỗi cho người học.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="admin-body">
+
+  <div class="admin-shell">
+
+    <!-- Topbar Navigation -->
+    <header class="admin-topbar">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="../index.html" class="admin-brand">
+          <div class="admin-brand-logo">LV</div>
+          <span class="admin-brand-name">VocabMaster Admin</span>
+        </a>
+
+        <nav class="admin-breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+          <span class="sep">/</span>
+          <span>Quản trị</span>
+          <span class="sep">/</span>
+          <span class="current">📝 Quản lý câu hỏi kiểm tra</span>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+        <a href="vocab-manager.html" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-book-open"></i> Chuyển sang Quản lý Từ vựng
+        </a>
+        <a href="../index.html" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-arrow-left"></i> Về Ứng dụng
+        </a>
+        <button class="theme-toggle-btn" id="theme-toggle" type="button" style="padding: 6px 14px;">
+          <div class="theme-icon-container">
+            <i class="fa-solid fa-moon" id="theme-icon"></i>
+            <span id="theme-text">Chế độ tối</span>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hướng dẫn nghiệp vụ quan trọng -->
+    <div style="padding: 14px 20px; border-radius: 12px; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--admin-blue); display: flex; align-items: center; gap: 14px;">
+      <i class="fa-solid fa-circle-info" style="font-size: 22px; color: var(--admin-blue-light); flex-shrink: 0;"></i>
+      <div style="font-size: 13px; line-height: 1.5; color: var(--text-main);">
+        <strong>Cơ chế sửa lỗi thông minh:</strong> Các đáp án đúng và lời giải thích bạn thêm ở đây sẽ được chương trình học sử dụng để <strong>sửa lỗi và giải thích chi tiết</strong> cho người học khi họ chọn sai trong các bài kiểm tra trắc nghiệm hoặc điền từ.
+      </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div style="display: grid; grid-template-columns: 460px 1fr; gap: 24px; align-items: start;">
+
+      <!-- Left Column: Form thêm / sửa câu hỏi -->
+      <div class="panel" style="padding: 24px;">
+        <h3 class="panel-title" id="form-question-title" style="font-size: 18px; margin-bottom: 6px;">
+          <i class="fa-solid fa-circle-question" style="color: var(--admin-accent);"></i> Thêm Câu Hỏi Mới
+        </h3>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">
+          Tạo câu hỏi trắc nghiệm hoặc điền từ kèm đáp án đúng và lời giải sửa lỗi.
+        </p>
+
+        <form id="admin-quiz-form">
+          <input type="hidden" id="admin-q-id">
+
+          <div class="form-group">
+            <label for="admin-q-topic">Chủ đề bài kiểm tra <span style="color:var(--color-accent)">*</span></label>
+            <select id="admin-q-topic" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-input); color: var(--text-main); font-weight: 600;" required>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Hình thức câu hỏi</label>
+            <div style="display: flex; gap: 15px; margin-top: 4px;">
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
+                <input type="radio" name="admin-q-type" value="mcq" checked> Trắc nghiệm (4 phương án)
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
+                <input type="radio" name="admin-q-type" value="fitb"> Điền từ vào chỗ trống
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="admin-q-text">Nội dung câu hỏi <span style="color:var(--color-accent)">*</span></label>
+            <textarea id="admin-q-text" rows="3" placeholder="Ví dụ: Without sufficient food, female bears may experience severe weight loss during _______." required></textarea>
+            <small style="color: var(--text-muted); font-size: 11px;">Dùng ký hiệu <code>_______</code> cho vị trí cần điền từ.</small>
+          </div>
+
+          <!-- MCQ Options Container -->
+          <div id="admin-mcq-fields" style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border: 1px solid var(--border-glass); margin-bottom: 16px;">
+            <label style="font-weight: 700; margin-bottom: 10px; display: block; font-size: 13px;">
+              4 Phương án & Đánh dấu đáp án đúng:
+            </label>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="radio" name="admin-correct-opt" value="A" id="rad-a" checked style="width: auto; cursor: pointer;">
+                <label for="rad-a" style="margin: 0; font-weight: 700; width: 24px;">A.</label>
+                <input type="text" id="admin-opt-a" placeholder="Phương án A..." required style="flex-grow: 1;">
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="radio" name="admin-correct-opt" value="B" id="rad-b" style="width: auto; cursor: pointer;">
+                <label for="rad-b" style="margin: 0; font-weight: 700; width: 24px;">B.</label>
+                <input type="text" id="admin-opt-b" placeholder="Phương án B..." required style="flex-grow: 1;">
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="radio" name="admin-correct-opt" value="C" id="rad-c" style="width: auto; cursor: pointer;">
+                <label for="rad-c" style="margin: 0; font-weight: 700; width: 24px;">C.</label>
+                <input type="text" id="admin-opt-c" placeholder="Phương án C..." required style="flex-grow: 1;">
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="radio" name="admin-correct-opt" value="D" id="rad-d" style="width: auto; cursor: pointer;">
+                <label for="rad-d" style="margin: 0; font-weight: 700; width: 24px;">D.</label>
+                <input type="text" id="admin-opt-d" placeholder="Phương án D..." required style="flex-grow: 1;">
+              </div>
+            </div>
+          </div>
+
+          <!-- FITB Container -->
+          <div id="admin-fitb-fields" style="display: none; background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border: 1px solid var(--border-glass); margin-bottom: 16px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="admin-fitb-word">Từ tiếng Anh chính xác cần điền <span style="color:var(--color-accent)">*</span></label>
+              <input type="text" id="admin-fitb-word" placeholder="Ví dụ: pregnancy, adapt, ...">
+            </div>
+          </div>
+
+          <!-- Explanation for error correction -->
+          <div class="form-group">
+            <label for="admin-q-explanation">
+              <i class="fa-solid fa-lightbulb" style="color: var(--color-warning);"></i> Hướng dẫn sửa lỗi cho người học <span style="color:var(--color-accent)">*</span>
+            </label>
+            <textarea id="admin-q-explanation" rows="2" placeholder="Ví dụ: Đáp án đúng là B (pregnancy - thời kỳ mang thai). Các từ khác: extinction (tuyệt chủng), osteoporosis (loãng xương)..." required></textarea>
+            <small style="color: var(--text-muted); font-size: 11px;">Nội dung này chỉ hiển thị khi người học chọn sai đáp án để giúp họ sửa sai và học từ.</small>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" id="admin-btn-save-q" style="flex-grow: 1;">
+              <i class="fa-solid fa-floppy-disk"></i> Lưu câu hỏi
+            </button>
+            <button type="button" class="btn btn-secondary" id="admin-btn-cancel-q" style="display: none;">
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Ngân hàng câu hỏi -->
+      <div class="panel" style="padding: 24px;">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+          <div>
+            <h3 class="panel-title" style="font-size: 20px;">
+              <i class="fa-solid fa-database" style="color: var(--admin-accent);"></i> Ngân Hàng Câu Hỏi Kiểm Tra
+            </h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">
+              Xem danh sách câu hỏi trong ngân hàng dữ liệu, lọc theo chủ đề và xem trước phần sửa lỗi.
+            </p>
+          </div>
+        </div>
+
+        <!-- Topic Tabs -->
+        <div class="topic-pills-wrapper" id="admin-q-topic-pills" style="margin-bottom: 20px;">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Toolbar -->
+        <div class="vocab-toolbar" style="margin-bottom: 16px;">
+          <div class="search-box" style="flex-grow: 2;">
+            <input type="search" id="admin-q-search" placeholder="Tìm kiếm nội dung câu hỏi, từ vựng...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+
+          <select id="admin-q-filter-type" class="filter-select">
+            <option value="all">Tất cả dạng câu hỏi</option>
+            <option value="mcq">Trắc nghiệm (MCQ)</option>
+            <option value="fitb">Điền từ (FITB)</option>
+          </select>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="vocab-stats-bar" id="admin-q-stats-bar" style="margin-bottom: 16px; font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-glass);">
+        </div>
+
+        <!-- Cards List -->
+        <div id="admin-questions-list" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="vocab-pagination" id="admin-q-pagination" style="margin-top: 25px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
+  <!-- Scripts -->
+  <script src="../js/db.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/pdf_data.js"></script>
+  <script src="../js/seeder.js"></script>
+  <script src="../js/shared.js"></script>
+  <script src="../js/admin/quiz-admin.js"></script>
+</body>
+
+</html>
+

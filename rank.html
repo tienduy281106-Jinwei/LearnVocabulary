@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabMaster - Đấu Hạng Ngữ Pháp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <i class="fa-solid fa-trophy" style="font-size:40px; color:var(--color-warning);"></i>
+            <div>
+              <h1 style="font-size:22px; font-weight:800; margin:0;">Đấu Hạng Ngữ Pháp</h1>
+              <p style="font-size:13px; color:var(--text-muted); margin:0;">Leo hạng từ Bronze → Challenger!</p>
+            </div>
+          </div>
+        </div>
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-medal"></i>
+            <div>
+              <span class="stat-header-value" id="header-current-rank">Bronze</span>
+              <span class="stat-header-label">Hạng hiện tại</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="page-section active">
+        <div class="panel" style="max-width: 800px; margin: 0 auto; width: 100%;">
+
+          <!-- SCREEN 1: RANK DASHBOARD -->
+          <div id="rank-dashboard-screen"
+            style="display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 20px 0;">
+            <div style="text-align: center;">
+              <h2 style="font-size: 26px; font-weight: 700; margin-bottom: 6px;">Đấu Hạng Ngữ Pháp</h2>
+              <p style="color: var(--text-muted); font-size: 14px;">Chinh phục các cấp bậc ngữ pháp tiếng Anh từ dễ đến
+                cực khó!</p>
+            </div>
+
+            <!-- Current rank badge -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+              <div id="rank-badge-display"
+                style="width: 160px; height: 160px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 64px; color: white; position: relative; transition: transform 0.5s ease; box-shadow: var(--shadow-main);">
+                <i class="fa-solid fa-medal"></i>
+              </div>
+              <div style="text-align: center;">
+                <span
+                  style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px;">Hạng
+                  hiện tại</span>
+                <h3 id="rank-name-display" style="font-size: 24px; font-weight: 800; margin-top: 2px;">Đồng (Bronze)
+                </h3>
+              </div>
+            </div>
+
+            <!-- Start button -->
+            <button type="button" class="btn btn-primary" id="rank-btn-start"
+              style="padding: 14px 40px; font-size: 16px; border-radius: var(--border-radius-md); background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);">
+              <i class="fa-solid fa-circle-play"></i> Bắt đầu Đấu Hạng
+            </button>
+
+            <!-- Rank map -->
+            <div style="width: 100%; border-top: 1px solid var(--border-glass); padding-top: 25px; margin-top: 15px;">
+              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 20px; text-align: center;"><i
+                  class="fa-solid fa-network-wired"></i> Bản đồ cấp bậc (Rank Map)</h4>
+              <div id="rank-map-container"
+                style="display: flex; justify-content: space-between; position: relative; padding: 0 10px; flex-wrap: wrap; gap: 15px; width: 100%;">
+                <!-- Renders the rank list with active / lock states by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 2: RANK MATCH PLAY -->
+          <div id="rank-play-screen" style="display: none; flex-direction: column; gap: 20px;">
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; font-family: var(--font-secondary); font-size: 13px; color: var(--text-muted);">
+              <span id="rank-play-progress">Câu hỏi 1/5</span>
+              <span id="rank-play-score-live">Số câu đúng: 0</span>
+            </div>
+
+            <div class="flashcard-progress-bar" style="margin-bottom: 10px;">
+              <div class="flashcard-progress-fill" id="rank-play-progress-fill" style="width: 20%;"></div>
+            </div>
+
+            <!-- Question box -->
+            <div class="quiz-question-box"
+              style="padding: 30px; border-radius: var(--border-radius-md); text-align: center; border: 1px solid var(--border-glass); margin-bottom: 10px;">
+              <span class="quiz-question-label"
+                style="font-size: 12px; text-transform: uppercase; color: var(--color-secondary); letter-spacing: 1px;"
+                id="rank-play-level-tag">Cấp độ: Đồng</span>
+              <h3 id="rank-play-question-text"
+                style="font-size: 18px; font-weight: 600; line-height: 1.5; margin-top: 10px;">Question text loaded
+                here...</h3>
+            </div>
+
+            <!-- 4 options MCQ -->
+            <div class="quiz-options-grid" id="rank-play-options" style="gap: 10px;">
+              <!-- Inject A, B, C, D buttons by JS -->
+            </div>
+
+            <!-- Feedback box -->
+            <div id="rank-play-feedback" class="rank-feedback-box" style="display:none;">
+              <div class="rank-feedback-header">
+                <div class="rank-feedback-icon" id="rank-feedback-icon-el">
+                  <i class="fa-solid fa-circle-check" id="rank-feedback-icon"></i>
+                </div>
+                <div>
+                  <div class="rank-feedback-status-text" id="rank-play-feedback-status">Chính xác!</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;" id="rank-feedback-subtitle">
+                    +1 câu đúng</div>
+                </div>
+              </div>
+              <div class="rank-correct-answer-note" id="rank-correct-answer-note" style="display:none;">
+                <i class="fa-solid fa-lightbulb" style="color: var(--color-warning);"></i>
+                <span>Đáp án đúng là:</span>
+                <span class="correct-word" id="rank-correct-answer-text"></span>
+              </div>
+              <div class="rank-feedback-explanation">
+                <i class="fa-solid fa-circle-info exp-icon"></i>
+                <div class="exp-text">
+                  <strong>Giải thích: </strong><span id="rank-play-feedback-text">Đang tải...</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 8px;">
+              <button type="button" class="btn btn-secondary" id="rank-play-btn-next" style="display: none;">Câu tiếp
+                theo <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- SCREEN 3: RANK MATCH RESULT -->
+          <div id="rank-result-screen"
+            style="display: none; flex-direction: column; align-items: center; text-align: center; padding: 30px 15px; gap: 20px;">
+            <i class="fa-solid fa-circle-up" style="font-size: 72px; color: var(--color-success);"
+              id="rank-res-icon"></i>
+            <h2 style="font-size: 26px; font-weight: 800;" id="rank-res-title">THĂNG HẠNG THÀNH CÔNG!</h2>
+            <p style="color: var(--text-muted); max-width: 450px; line-height: 1.6;" id="rank-res-desc">
+              Tuyệt vời! Bạn đã vượt qua cấp độ và xuất sắc thăng hạng lên bậc tiếp theo.
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 20px; margin: 15px 0;">
+              <div id="rank-res-badge-old"
+                style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; background: var(--border-glass); opacity: 0.5;">
+                <i class="fa-solid fa-medal"></i>
+              </div>
+              <i class="fa-solid fa-arrow-right-long" style="font-size: 24px; color: var(--text-muted);"></i>
+              <div id="rank-res-badge-new"
+                style="width: 110px; height: 110px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; box-shadow: var(--shadow-neon); border: 3px solid var(--color-secondary);">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+            </div>
+
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 10px;"
+              id="rank-res-score-detail">
+              Đúng: 5 / 5 câu hỏi
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+              <button type="button" class="btn btn-primary" id="rank-res-btn-action">Tiếp tục leo rank</button>
+              <button type="button" class="btn btn-secondary" id="rank-res-btn-exit">Quay về Arena</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container"
+    style="position: fixed; bottom: 30px; right: 30px; z-index: 2000; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/rank.js"></script>
+</body>
+
+</html>

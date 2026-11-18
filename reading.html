@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đọc hiểu IELTS - VocabMaster</title>
+  <meta name="description"
+    content="Tuyển tập 9 bài đọc IELTS Reading chuyên sâu kèm từ vựng và bài tập kiểm tra sửa lỗi.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div id="sidebar-mount"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- APP HEADER -->
+      <header class="app-header">
+        <div class="robot-mascot-section">
+          <div class="robot-dog-wrap">
+            <div class="robot-dog">
+              <div class="robot-antenna">
+                <div class="robot-antenna-ball"></div>
+                <div class="robot-antenna-pole"></div>
+              </div>
+              <div class="robot-head">
+                <div class="robot-ear robot-ear--l"></div>
+                <div class="robot-ear robot-ear--r"></div>
+                <div class="robot-eyes">
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                  <div class="robot-eye">
+                    <div class="robot-pupil"></div>
+                  </div>
+                </div>
+                <div class="robot-mouth-zone">
+                  <div class="robot-nose-btn"></div>
+                  <div class="robot-smile-bar"></div>
+                </div>
+              </div>
+              <div class="robot-body">
+                <div class="robot-leds">
+                  <div class="robot-led rl1"></div>
+                  <div class="robot-led rl2"></div>
+                  <div class="robot-led rl3"></div>
+                </div>
+              </div>
+              <div class="robot-feet">
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+                <div class="robot-foot"></div>
+              </div>
+              <div class="robot-tail-wrap">
+                <div class="robot-tail"></div>
+              </div>
+            </div>
+            <div class="robot-bubble">
+              <span id="robot-typewriter"></span><span class="robot-cursor">|</span>
+            </div>
+          </div>
+          <p id="current-date-txt" class="robot-date-txt"></p>
+        </div>
+
+        <div class="stats-summary-header">
+          <div class="stat-header-item">
+            <i class="fa-solid fa-newspaper" style="color: var(--color-primary-light);"></i>
+            <div>
+              <span class="stat-header-value">9</span>
+              <span class="stat-header-label">Bài đọc</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SECTION: READING PASSAGES -->
+      <section class="page-section active" id="sec-reading">
+        <div class="panel">
+          <div class="panel-header" style="flex-wrap: wrap; gap: 15px; margin-bottom: 25px;">
+            <div>
+              <h2 class="panel-title" style="font-size: 22px;">
+                <i class="fa-solid fa-book-open-reader" style="color: var(--color-primary-light);"></i>
+                Tài Liệu Đọc Hiểu & Từ Vựng IELTS Reading
+              </h2>
+              <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">
+                Tuyển tập 9 bài đọc chính thức kèm bộ từ vựng trọng tâm và ngân hàng câu hỏi kiểm tra có sửa lỗi.
+              </p>
+            </div>
+            <a href="https://docs.google.com/document/d/1hSLqSzOXsD-ea5K-4qi34hLhWf3hmpJ9AFRv4PdbpN8/edit?hl=vi&tab=t.0"
+              target="_blank" rel="noopener noreferrer" class="btn btn-primary"
+              style="display: inline-flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-up-right-from-square"></i> Mở bài đọc & dịch tiếng Việt
+            </a>
+          </div>
+
+          <!-- Reading Passages Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;"
+            id="reading-cards-grid">
+            <!-- Rendered by JS -->
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"
+    style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/pdf_data.js"></script>
+  <script src="js/seeder.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/reading.js"></script>
+</body>
+
+</html>
