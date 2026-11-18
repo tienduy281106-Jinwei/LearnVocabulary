@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -50,8 +50,8 @@
         </a>
         <button class="theme-toggle-btn" id="theme-toggle" type="button" style="padding: 6px 14px;">
           <div class="theme-icon-container">
-            <i class="fa-solid fa-moon" id="theme-icon"></i>
-            <span id="theme-text">Chế độ tối</span>
+            <i class="fa-solid fa-sun" id="theme-icon"></i>
+            <span id="theme-text">Chế độ sáng</span>
           </div>
         </button>
       </div>
@@ -232,8 +232,8 @@
     </div>
 
     <!-- Modal: Tạo Topic mới -->
-    <div id="modal-create-topic" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center;">
-      <div style="background: var(--bg-card, #1e1b2e); border: 1px solid var(--admin-border); border-radius: 16px; padding: 28px; width: 440px; max-width: 90vw; box-shadow: var(--admin-shadow);">
+    <div id="modal-create-topic" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center;">
+      <div style="background: var(--bg-card, #ffffff); border: 1px solid var(--admin-border); border-radius: 16px; padding: 28px; width: 440px; max-width: 90vw; box-shadow: var(--admin-shadow);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <h3 style="font-size: 18px; font-weight: 700; color: var(--text-main);"><i class="fa-solid fa-folder-plus" style="color:var(--admin-accent);"></i> Tạo Chủ Đề (Topic) Mới</h3>
           <button type="button" class="btn-icon" id="btn-close-topic-modal" style="cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>

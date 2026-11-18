@@ -107,8 +107,8 @@
   <div class="sidebar-footer">
     <button class="theme-toggle-btn" id="theme-toggle" type="button">
       <div class="theme-icon-container">
-        <i class="fa-solid fa-moon" id="theme-icon"></i>
-        <span id="theme-text">Chế độ tối</span>
+        <i class="fa-solid fa-sun" id="theme-icon"></i>
+        <span id="theme-text">Chế độ sáng</span>
       </div>
       <i class="fa-solid fa-rotate"></i>
     </button>
@@ -138,15 +138,15 @@
   }
 
   /**
-   * Reads the stored theme preference (DB → localStorage fallback → 'dark').
+   * Reads the stored theme preference (DB → localStorage fallback → 'light').
    * @returns {Promise<string>}
    */
   async function loadTheme() {
-    let theme = 'dark';
+    let theme = 'light';
     try {
-      theme = await VocabDB.getSetting('theme', 'dark');
+      theme = await VocabDB.getSetting('theme', 'light');
     } catch (_) {
-      theme = localStorage.getItem('theme') || 'dark';
+      theme = localStorage.getItem('theme') || 'light';
     }
     return theme;
   }
@@ -158,8 +158,8 @@
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
     btn.addEventListener('click', async () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
       applyTheme(next);
       try {
         await VocabDB.putSetting('theme', next);
