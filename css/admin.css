@@ -168,8 +168,19 @@ body.admin-body {
   align-items: start;
 }
 
-@media (max-width: 1100px) {
-  .admin-layout { grid-template-columns: 1fr; }
+.admin-main-grid {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .admin-layout,
+  .admin-main-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 /* ---- Panels ---- */
@@ -930,14 +941,39 @@ select.form-control option {
 
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
-  .admin-shell { padding: 12px; gap: 12px; }
-  .admin-panel { padding: 20px 16px; }
-  .admin-topbar { padding: 14px 18px; }
+  .admin-shell { padding: 10px; gap: 12px; }
+  .admin-panel { padding: 18px 14px; border-radius: 14px; }
+  .admin-topbar {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    border-radius: 14px;
+  }
+  .admin-topbar > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .topbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .topbar-actions .btn {
+    flex: 1 1 auto;
+    font-size: 12px;
+    padding: 6px 10px;
+    justify-content: center;
+  }
+  .admin-breadcrumb { display: none; }
   .form-row { grid-template-columns: 1fr; }
   .mcq-answers-grid { grid-template-columns: 1fr; }
   .correct-radio-row { grid-template-columns: repeat(2,1fr); }
   .question-card-body .mcq-opts { grid-template-columns: 1fr; }
-  .admin-brand-name { display: none; }
+  .admin-brand-name { font-size: 17px; }
 }
 
 /* ---- Utility ---- */

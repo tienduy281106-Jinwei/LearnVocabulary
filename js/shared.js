@@ -84,11 +84,21 @@
     return `
 <aside class="sidebar">
   <div class="brand">
-    <div class="brand-logo">LV</div>
-    <span class="brand-name">Learning Vocabulary</span>
+    <a href="${rootPrefix}index.html" class="brand-left">
+      <div class="brand-logo">LV</div>
+      <span class="brand-name">Learning Vocabulary</span>
+    </a>
+    <div class="mobile-nav-actions">
+      <button class="mobile-theme-btn" id="mobile-theme-toggle" type="button" title="Chuyển chế độ sáng/tối" aria-label="Chuyển chế độ sáng/tối">
+        <i class="fa-solid fa-sun" id="mobile-theme-icon"></i>
+      </button>
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Mở Menu điều hướng" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
   </div>
 
-  <ul class="nav-menu">
+  <ul class="nav-menu" id="nav-menu">
     ${mainItems}
 
     <!-- Quản trị dropdown -->
@@ -127,13 +137,16 @@
     document.documentElement.setAttribute('data-theme', theme);
     const icon = document.getElementById('theme-icon');
     const text = document.getElementById('theme-text');
-    if (!icon || !text) return;
+    const mobileIcon = document.getElementById('mobile-theme-icon');
+
     if (theme === 'dark') {
-      icon.className = 'fa-solid fa-moon';
-      text.textContent = 'Chế độ tối';
+      if (icon) icon.className = 'fa-solid fa-moon';
+      if (text) text.textContent = 'Chế độ tối';
+      if (mobileIcon) mobileIcon.className = 'fa-solid fa-moon';
     } else {
-      icon.className = 'fa-solid fa-sun';
-      text.textContent = 'Chế độ sáng';
+      if (icon) icon.className = 'fa-solid fa-sun';
+      if (text) text.textContent = 'Chế độ sáng';
+      if (mobileIcon) mobileIcon.className = 'fa-solid fa-sun';
     }
   }
 
@@ -152,19 +165,84 @@
   }
 
   /**
-   * Wires up the #theme-toggle button click handler.
+   * Wires up the #theme-toggle button click handler (both desktop & mobile).
    */
   function bindThemeToggle() {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', async () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      try {
-        await VocabDB.putSetting('theme', next);
-      } catch (_) {
-        localStorage.setItem('theme', next);
+    const btns = [
+      document.getElementById('theme-toggle'),
+      document.getElementById('mobile-theme-toggle')
+    ].filter(Boolean);
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        try {
+          await VocabDB.putSetting('theme', next);
+        } catch (_) {
+          localStorage.setItem('theme', next);
+        }
+      });
+    });
+  }
+
+  /**
+   * Tự động nhận diện thiết bị (Máy tính vs Điện thoại/Máy tính bảng)
+   * và gán thuộc tính data-device vào <html> và class vào <body>.
+   */
+  function updateDeviceDetection() {
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const width = window.innerWidth;
+    const deviceType = width > 1024 ? 'desktop' : (width > 768 ? 'tablet' : 'mobile');
+
+    document.documentElement.setAttribute('data-device', deviceType);
+    document.documentElement.setAttribute('data-touch', isTouch ? 'touch' : 'no-touch');
+
+    document.body.classList.remove('device-desktop', 'device-tablet', 'device-mobile', 'touch-device');
+    document.body.classList.add(`device-${deviceType}`);
+    if (isTouch) document.body.classList.add('touch-device');
+  }
+
+  /**
+   * Điều khiển mở / đóng Menu điều hướng trên Điện thoại (Mobile)
+   */
+  function bindMobileMenuToggle() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (!toggleBtn || !sidebar) return;
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = sidebar.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(isOpen));
+      const icon = toggleBtn.querySelector('i');
+      if (icon) {
+        icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+      }
+    });
+
+    // Tự động đóng menu khi bấm chọn 1 trang
+    sidebar.querySelectorAll('.nav-link:not(.nav-link--dropdown)').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          sidebar.classList.remove('is-open');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          const icon = toggleBtn.querySelector('i');
+          if (icon) icon.className = 'fa-solid fa-bars';
+        }
+      });
+    });
+
+    // Đóng menu khi chạm/click ra bên ngoài
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1024 && sidebar.classList.contains('is-open')) {
+        if (!sidebar.contains(e.target)) {
+          sidebar.classList.remove('is-open');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          const icon = toggleBtn.querySelector('i');
+          if (icon) icon.className = 'fa-solid fa-bars';
+        }
       }
     });
   }
@@ -429,6 +507,11 @@
    * @returns {Promise<void>}
    */
   async function initShared() {
+    // 0 — Device detection
+    updateDeviceDetection();
+    window.addEventListener('resize', updateDeviceDetection);
+    window.addEventListener('orientationchange', updateDeviceDetection);
+
     // 1 — Open DB and migrate/seed
     try {
       await VocabDB.open();
@@ -459,6 +542,7 @@
     // 4 — Bind UI handlers
     bindThemeToggle();
     bindAdminDropdown();
+    bindMobileMenuToggle();
 
     // 5 — Mascot & date
     initRobotMascot();
@@ -471,12 +555,13 @@
    * 7.  GLOBAL EXPORT
    * ═══════════════════════════════════════════════════════════════ */
 
-  global.initShared      = initShared;
-  global.getActiveTopics = getActiveTopics;
-  global.navigateTo      = navigateTo;
-  global.showToast       = showToast;
-  global.formatDate      = formatDate;
-  global.speak           = speak;
-  global.updateStatsHeader = updateStatsHeader;
+  global.initShared            = initShared;
+  global.getActiveTopics       = getActiveTopics;
+  global.navigateTo            = navigateTo;
+  global.showToast             = showToast;
+  global.formatDate            = formatDate;
+  global.speak                 = speak;
+  global.updateStatsHeader     = updateStatsHeader;
+  global.updateDeviceDetection = updateDeviceDetection;
 
 })(window);

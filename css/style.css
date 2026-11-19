@@ -161,9 +161,18 @@ body {
 .brand {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-left: 6px;
+  width: 100%;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 40px;
-  padding-left: 10px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .brand-logo {
@@ -178,15 +187,22 @@ body {
   color: white;
   font-weight: 800;
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .brand-name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   background: linear-gradient(to right, var(--text-main), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+/* Mobile Nav Actions (Theme & Hamburger - Ẩn trên máy tính, Hiện trên điện thoại) */
+.mobile-nav-actions {
+  display: none;
 }
 
 .nav-menu {
@@ -1753,82 +1769,341 @@ textarea:focus {
   margin-top: 20px;
 }
 
-/* Responsive Rules */
-@media (max-width: 1024px) {
-  .app-container {
-    flex-direction: column;
-    padding: 10px;
-  }
+/* ============================================================
+   RESPONSIVE & DEVICE-ADAPTIVE FRAMEWORK (MÁY TÍNH vs ĐIỆN THOẠI)
+   ============================================================ */
 
+/* Keyframe for mobile menu drop */
+@keyframes slideDownNav {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 1. MÁY TÍNH (DESKTOP - Màn hình > 1024px) */
+@media (min-width: 1025px) {
   .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    top: 0;
-    padding: 15px;
-  }
-
-  .brand {
-    margin-bottom: 20px;
+    width: 280px;
+    height: calc(100vh - 40px);
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .nav-menu {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: flex !important;
+    flex-direction: column;
     gap: 8px;
+    flex-grow: 1;
   }
 
-  .nav-link {
-    padding: 10px 14px;
-    font-size: 14px;
+  .mobile-nav-actions {
+    display: none !important;
   }
 
   .sidebar-footer {
+    display: flex !important;
+  }
+}
+
+/* 2. TABLET & MOBILE (Màn hình <= 1024px) */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* Biến Sidebar thành Mobile Header thông minh cố định */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    padding: 12px 18px;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    margin-bottom: 8px;
+  }
+
+  .brand {
+    margin-bottom: 0;
+    padding-left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Nút thao tác trên mobile header */
+  .mobile-nav-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-theme-btn,
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--bg-glass-hover);
+    border: 1px solid var(--border-glass);
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 16px;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-theme-btn:hover,
+  .mobile-menu-toggle:hover {
+    border-color: var(--border-active);
+    color: var(--color-primary-light);
+    transform: scale(1.05);
+  }
+
+  /* Danh sách điều hướng trên Mobile: Ẩn mặc định, Xổ xuống khi bấm Menu */
+  .nav-menu {
     display: none;
-    /* Hide toggle footer in mobile menu if we place it in main header */
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-glass);
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+
+  .sidebar.is-open .nav-menu {
+    display: flex;
+    animation: slideDownNav 0.25s ease;
+  }
+
+  .nav-link {
+    padding: 11px 16px;
+    font-size: 14.5px;
+  }
+
+  .sidebar-footer {
+    display: none !important;
   }
 
   .main-content {
     min-height: auto;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .vocab-layout,
   .grammar-layout,
   .sentence-layout {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
+/* 3. ĐIỆN THOẠI (MOBILE - Màn hình <= 768px) */
 @media (max-width: 768px) {
-  .widget-stats {
-    grid-template-columns: 1fr;
+  .app-container {
+    padding: 8px;
+    gap: 10px;
   }
 
   .app-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .robot-mascot-section {
+    width: 100%;
+  }
+
+  .robot-dog-wrap {
+    gap: 12px;
+  }
+
+  .robot-dog {
+    transform: scale(0.82);
+    transform-origin: left center;
+  }
+
+  .robot-bubble {
+    font-size: 13px;
+    padding: 8px 12px;
+    flex: 1;
+    min-width: 0;
   }
 
   .stats-summary-header {
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    padding: 10px 14px;
   }
 
+  .widget-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quick-start-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Flashcards tối ưu ngón tay cái chạm lướt */
   .flashcard-container {
-    height: 320px;
+    height: 290px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .flashcard-front .word {
-    font-size: 36px;
+    font-size: 28px;
+  }
+
+  .flashcard-front .phonetic {
+    font-size: 15px;
+  }
+
+  .flashcard-actions {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+
+  .flashcard-btn {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 13.5px;
+    justify-content: center;
+  }
+
+  /* Toolbar tìm kiếm & lọc từ vựng trên điện thoại */
+  .vocab-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .vocab-toolbar .search-box,
+  .vocab-toolbar .filter-select {
+    width: 100%;
+  }
+
+  .topic-pills-wrapper {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .topic-pill {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Bảng tất cả từ vựng có thanh cuộn cảm ứng mượt mà */
+  .all-vocab-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .all-vocab-table {
+    min-width: 680px;
+    font-size: 13px;
+  }
+
+  .all-vocab-table th,
+  .all-vocab-table td {
+    padding: 10px 12px;
+  }
+
+  /* Trắc nghiệm trên điện thoại: 1 cột dễ chạm ngón tay cái */
+  .quiz-options-grid,
+  .tquiz-options-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .quiz-option-btn,
+  .tquiz-option-btn {
+    padding: 14px 16px;
+    font-size: 15px;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  .quiz-question-box {
+    padding: 20px 16px;
+  }
+
+  .quiz-question-text {
+    font-size: 20px;
+    line-height: 1.4;
   }
 
   .quiz-modes {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Ngăn chặn zoom tự động trên Safari iOS khi focus vào ô input */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* 4. ĐIỆN THOẠI MÀN HÌNH NHỎ (<= 480px) */
+@media (max-width: 480px) {
+  .brand-name {
+    font-size: 16px;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .quick-start-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .quote-panel .quote-content {
+    font-size: 14px;
+  }
+
+  .stat-card {
+    padding: 14px;
   }
 }
 
